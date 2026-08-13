@@ -1,28 +1,88 @@
-import streamlit as st
+from urllib.error import URLError
 import pandas as pd
+import pydeck as pdk
+import streamlit as st
 
-# Title
-st.title("Elements Demo")
 
-# Dataframe Section
-st.subheader("Dataframe")
-df = pd.DataFrame({
-    'Name': ['Alice', 'Bob', 'Charlie', 'David'],
-    'Age': [25, 32, 37, 45],
-    'Occupation': ['Engineer', 'Doctor', 'Artist', 'Chef']
-})
+@st.cache_data
+def from_data_file(filename: str) -> pd.DataFrame:
+    url = (
+        "https://raw.githubusercontent.com/streamlit/"
+        f"example-data/master/hello/v1/{filename}"
+    )
+    return pd.read_json(url)
 
-st.dataframe(df)
-# Data Editor Section (Editable dataframe)
-st.subheader("Data Editor")
-editable_df = st.data_editor(df)
 
-# Static Table Section
-st.subheader("Static Table")
-st.table(df)
+try:
+    all_layers = {
+        "Bike rentals": pdk.Layer(
+            "HexagonLayer",
+            data=from_data_file("bike_rental_stats.json"),
+            get_position=["lon", "lat"],
+            radius=200,
+            elevation_scale=4,
+            elevation_range=[0, 1000],
+            extruded=True,
+        ),
+        "Bart stop exits": pdk.Layer(
+            "ScatterplotLayer",
+            data=from_data_file("bart_stop_stats.json"),
+            get_position=["lon", "lat"],
+            get_color=[200, 30, 0, 160],
+            get_radius="[exits]",
+            radius_scale=0.05,
+        ),
+        "Bart stop names": pdk.Layer(
+            "TextLayer",
+            data=from_data_file("bart_stop_stats.json"),
+            get_position=["lon", "lat"],
+            get_text="name",
+            get_color=[0, 0, 0, 200],
+            get_size=10,
+            get_alignment_baseline="bottom",  # Dibetulkan dari "'bottom'"
+        ),
+        "Outbound flow": pdk.Layer(
+            "ArcLayer",
+            data=from_data_file("bart_path_stats.json"),
+            get_source_position=["lon", "lat"],
+            get_target_position=["lon2", "lat2"],
+            get_source_color=[200, 30, 0, 160],
+            get_target_color=[200, 30, 0, 160],
+            auto_highlight=True,
+            width_scale=0.0001,
+            get_width="outbound",
+            width_min_pixels=3,
+            width_max_pixels=30,
+        ),
+    }
 
-# Metrics Section
-st.subheader("Metrics")
+    st.sidebar.subheader("Map layers")
+    selected_layers = [
+        layer
+        for layer_name, layer in all_layers.items()
+        if st.sidebar.checkbox(layer_name, True)
+    ]
 
-st.metric(label="Total Rows", value=len(df))
-st.metric(label="Average Age", value=round(df['Age'].mean(), 1))
+    if selected_layers:
+        st.pydeck_chart(
+            pdk.Deck(
+                map_style=None,
+                initial_view_state=pdk.ViewState(  # Menggunakan pdk.ViewState()
+                    latitude=37.76,
+                    longitude=-122.4,
+                    zoom=11,
+                    pitch=50,
+                ),
+                layers=selected_layers,
+            )
+        )
+    else:
+        st.error("Please choose at least one layer above.")
+
+except URLError as e:
+    st.error(
+        f"""
+        **This demo requires internet access.**
+        Connection error: {e.reason}
+    """
+    )
