@@ -1,88 +1,192 @@
-from urllib.error import URLError
-import pandas as pd
-import pydeck as pdk
 import streamlit as st
+import time
 
+# =========================
+# PAGE CONFIG
+# =========================
 
-@st.cache_data
-def from_data_file(filename: str) -> pd.DataFrame:
-    url = (
-        "https://raw.githubusercontent.com/streamlit/"
-        f"example-data/master/hello/v1/{filename}"
+st.set_page_config(
+    page_title="Happy Birthday 🎂",
+    page_icon="🎂",
+    layout="centered"
+)
+
+# =========================
+# CUSTOM CSS
+# =========================
+
+st.markdown("""
+<style>
+
+.stApp {
+    background: linear-gradient(
+        135deg,
+        #ffdde1 0%,
+        #ee9ca7 50%,
+        #ffd6e7 100%
+    );
+}
+
+.title {
+    text-align: center;
+    font-size: 55px;
+    font-weight: bold;
+    color: #ffffff;
+    text-shadow: 3px 3px 10px #c2185b;
+}
+
+.subtitle {
+    text-align: center;
+    font-size: 24px;
+    color: white;
+}
+
+.card {
+    background: rgba(255,255,255,0.90);
+    padding: 30px;
+    border-radius: 25px;
+    box-shadow: 0px 10px 30px rgba(0,0,0,0.15);
+    text-align: center;
+}
+
+.message {
+    font-size: 22px;
+    color: #c2185b;
+    line-height: 1.6;
+}
+
+</style>
+""", unsafe_allow_html=True)
+
+# =========================
+# TITLE
+# =========================
+
+st.markdown(
+    '<div class="title">🎂 HAPPY BIRTHDAY 🎂</div>',
+    unsafe_allow_html=True
+)
+
+st.markdown(
+    '<div class="subtitle">✨ A Special Birthday Surprise ✨</div>',
+    unsafe_allow_html=True
+)
+
+st.write("")
+
+# =========================
+# SIDEBAR SETTINGS
+# =========================
+
+st.sidebar.title("🎨 Birthday Settings")
+
+name = st.sidebar.text_input(
+    "Nama birthday person",
+    "My Friend"
+)
+
+message = st.sidebar.text_area(
+    "Birthday Message",
+    "Semoga panjang umur, dimurahkan rezeki, "
+    "dipermudahkan segala urusan dan sentiasa bahagia! 💖"
+)
+
+emoji = st.sidebar.selectbox(
+    "Pilih emoji",
+    ["🎂", "🎉", "🥳", "🎁", "💖", "✨"]
+)
+
+# =========================
+# PHOTO UPLOAD
+# =========================
+
+st.sidebar.write("### 📸 Upload Gambar")
+
+uploaded_file = st.sidebar.file_uploader(
+    "Upload gambar birthday",
+    type=["jpg", "jpeg", "png"]
+)
+
+if uploaded_file:
+    st.image(
+        uploaded_file,
+        caption=f"✨ {name} ✨",
+        use_container_width=True
     )
-    return pd.read_json(url)
 
+# =========================
+# MAIN CARD
+# =========================
 
-try:
-    all_layers = {
-        "Bike rentals": pdk.Layer(
-            "HexagonLayer",
-            data=from_data_file("bike_rental_stats.json"),
-            get_position=["lon", "lat"],
-            radius=200,
-            elevation_scale=4,
-            elevation_range=[0, 1000],
-            extruded=True,
-        ),
-        "Bart stop exits": pdk.Layer(
-            "ScatterplotLayer",
-            data=from_data_file("bart_stop_stats.json"),
-            get_position=["lon", "lat"],
-            get_color=[200, 30, 0, 160],
-            get_radius="[exits]",
-            radius_scale=0.05,
-        ),
-        "Bart stop names": pdk.Layer(
-            "TextLayer",
-            data=from_data_file("bart_stop_stats.json"),
-            get_position=["lon", "lat"],
-            get_text="name",
-            get_color=[0, 0, 0, 200],
-            get_size=10,
-            get_alignment_baseline="bottom",  # Dibetulkan dari "'bottom'"
-        ),
-        "Outbound flow": pdk.Layer(
-            "ArcLayer",
-            data=from_data_file("bart_path_stats.json"),
-            get_source_position=["lon", "lat"],
-            get_target_position=["lon2", "lat2"],
-            get_source_color=[200, 30, 0, 160],
-            get_target_color=[200, 30, 0, 160],
-            auto_highlight=True,
-            width_scale=0.0001,
-            get_width="outbound",
-            width_min_pixels=3,
-            width_max_pixels=30,
-        ),
-    }
+st.markdown('<div class="card">', unsafe_allow_html=True)
 
-    st.sidebar.subheader("Map layers")
-    selected_layers = [
-        layer
-        for layer_name, layer in all_layers.items()
-        if st.sidebar.checkbox(layer_name, True)
-    ]
+st.markdown(
+    f"""
+    <h1 style="color:#c2185b;">
+        {emoji} Happy Birthday, {name}! {emoji}
+    </h1>
+    """,
+    unsafe_allow_html=True
+)
 
-    if selected_layers:
-        st.pydeck_chart(
-            pdk.Deck(
-                map_style=None,
-                initial_view_state=pdk.ViewState(  # Menggunakan pdk.ViewState()
-                    latitude=37.76,
-                    longitude=-122.4,
-                    zoom=11,
-                    pitch=50,
-                ),
-                layers=selected_layers,
-            )
-        )
-    else:
-        st.error("Please choose at least one layer above.")
+st.write("")
 
-except URLError as e:
-    st.error(
+if "surprise" not in st.session_state:
+    st.session_state.surprise = False
+
+# =========================
+# BUTTON
+# =========================
+
+if not st.session_state.surprise:
+
+    if st.button(
+        "🎁 OPEN BIRTHDAY SURPRISE",
+        use_container_width=True
+    ):
+        st.session_state.surprise = True
+        st.rerun()
+
+else:
+
+    # Confetti
+    st.balloons()
+
+    st.markdown(
         f"""
-        **This demo requires internet access.**
-        Connection error: {e.reason}
-    """
+        <div class="message">
+            <h2>🎉 SURPRISE! 🎉</h2>
+
+            <p>
+            {message}
+            </p>
+
+            <h1>
+            🎂 🎈 🎁 ✨ 🥳 ✨ 🎁 🎈 🎂
+            </h1>
+        </div>
+        """,
+        unsafe_allow_html=True
     )
+
+    st.write("")
+
+    # Extra animation
+    progress = st.progress(0)
+
+    for i in range(101):
+        time.sleep(0.01)
+        progress.progress(i)
+
+    st.success(
+        f"🎉 Once again, HAPPY BIRTHDAY {name}! 🎉"
+    )
+
+    if st.button(
+        "🔄 Reset Surprise",
+        use_container_width=True
+    ):
+        st.session_state.surprise = False
+        st.rerun()
+
+st.markdown('</div>', unsafe_allow_html=True)
