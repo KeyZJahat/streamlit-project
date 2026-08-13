@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" type="image/png" href="bday.png" />
+  <title>happy birthday my boyfriend!!</title>
+  <link rel="icon" href="https://i.ibb.co.com/hXZsYxZ/heart.png">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: #ffffff;
+      color: #1e3a8a;
+      font-family: 'Poppins', sans-serif;
+      overflow: hidden;
+    }
+
+    .page {
+      height: 100vh;
+      width: 100vw;
+      position: absolute;
+      top: 0;
+      left: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 20px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 1s ease;
+    }
+
+    .page.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    h1 {
+      font-size: 2.2rem;
+      margin-bottom: 1rem;
+    }
+
+    h2 {
+      font-size: 1.8rem;
+      margin-bottom: 1rem;
+    }
+
+    .highlight {
+      color: #1e3a8a;
+      font-weight: bold;
+    }
+
+    .button {
+      background-color: #1e3a8a;
+      color: #fff;
+      border: none;
+      border-radius: 25px;
+      padding: 15px 30px;
+      font-size: 1.2rem;
+      cursor: pointer;
+      margin-top: 30px;
+      transition: background 0.3s;
+    }
+
+    .button:hover {
+      background-color: #2c4ca5;
+    }
+
+    img {
+      max-width: 70vw;
+      max-height: 50vh;
+      margin-bottom: 20px;
+    }
+
+    .letter {
+      white-space: pre-line;
+      font-size: 1.1rem;
+      max-width: 600px;
+      text-align: left;
+      border-left: 3px solid #1e3a8a;
+      padding-left: 15px;
+      min-height: 200px;
+    }
+
+    .falling {
+      position: fixed;
+      top: -30px;
+      font-size: 24px;
+      animation: fall linear infinite;
+      pointer-events: none;
+      z-index: 9999;
+    }
+
+    .blue-heart {
+      color: #1e3a8a;
+    }
+
+    .yellow-star {
+      color: #facc15;
+    }
+
+    @keyframes fall {
+      to {
+        transform: translateY(120vh) rotate(360deg);
+        opacity: 0;
+      }
+    }
+
+    @media (max-width: 600px) {
+      h1 {
+        font-size: 1.8rem;
+      }
+
+      h2 {
+        font-size: 1.5rem;
+      }
+
+      .button {
+        padding: 10px 20px;
+        font-size: 1rem;
+      }
+
+      .letter {
+        font-size: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page active" id="page1">
+    <img src="https://happiestbday-mybf.netlify.app//1.gif" alt="Cute Icon" />
+    <h1>happy birthday <span class="highlight">my boyfriend!!</span></h1>
+    <p>there’s more waiting… click to find out ✨</p>
+    <button class="button" onclick="goToPage(2)">tap ‹𝟹</button>
+  </div>
+
+  <div class="page" id="page2">
+    <img src="https://happiestbday-mybf.netlify.app/2.gif" alt="Envelope" />
+    <p>you get more amazing every year.
+happy birthday, baby.</p>
+    <button class="button" onclick="goToPage(3)">open it ‹𝟹</button>
+  </div>
+
+  <div class="page" id="page3">
+    <img src="https://happiestbday-mybf.netlify.app/3.gif" alt="Heart Icon" />
+    <p>you’re already the birthday boy, did you have to be this good-looking too?
+not fair.</p>
+    <button class="button" onclick="goToPage(4)"> ‹𝟹</button>
+  </div>
+
+  <div class="page" id="page4">
+    <img src="https://happiestbday-mybf.netlify.app/4.gif" alt="Love Note" />
+    <p>okay okay last one fr
+i made something for your bday, read it slowly yaa 🎂</p>
+    <button class="button" onclick="goToPage(5)">okaay ‹𝟹</button>
+
+  </div>
+
+  <div class="page" id="page5">
+    <img src="https://foto_kalian_jadiin_link_abistu_tempel_disini" alt="Foto Ke Satu" />
+    <h1>you deserve all the love in the world today and always. happy birthday, my boyfriend 🤍</h1>
+    <p>just two outlines, but the warmth says it all.</p>
+    <button class="button" onclick="goToPage(6)">open this (♡˙ᵕ˙♡)</button>
+  </div>
+
+  <div class="page" id="page6">
+    <img src="https://foto_kalian_jadiin_link_abistu_tempel_disini" alt="Foto Kedua" />
+    <h1>every year, you grow wiser, kinder, and even more amazing. happy birthday, my boy ♡</h1>
+    <p>just you, being effortlessly my favorite view.</p>
+    <button class="button" onclick="goToPage(7)">♡</button>
+  </div>
+
+    <div class="page" id="page7">
+    <img src="https://foto_kalian_jadiin_link_abistu_tempel_disini" alt="foto ketiga" />
+    <h1>i swear every time we take a photo together, i end up liking you even more.</h1>
+    <p>it’s your day, my boyfriend. scroll down, i left a little letter for you 🎂</p>
+    <button class="button" onclick="goToPage(8)">♡</button>
+  </div>
+
+  <div class="page" id="page8" style="font-family: 'Montserrat', sans-serif;">
+    <h2>happy birthday my lovee-!! ૮꒰ྀི ੭˶ᵔ ᵕ ᵔ ྀི꒱੭</h2>
+    <div class="letter" id="letterText" style="white-space: pre-line; font-size: 1.05rem; max-height: 300px; overflow-y: auto; line-height: 1.6; border-left: 3px solid #3399ff; padding-left: 15px; margin-top: 20px;"></div>
+
+  </div>
+
+  <audio id="bg-music" src="https://happiestbday-mybf.netlify.app/Party.mp3" autoplay loop muted></audio>
+
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+  <script>
+    const fullLetter = `it's your special dayy, wish u all the bestt sayang. selamat bertumbuh jauh lebih baik sayangku cintaaku, panjang umur, a wish for u on ur birthday, whatever u ask may u receive, whatever u seek may u find, whatever u wish may it be fulfilled on ur birthday and together, i hope u will walk on this journey knowing that u belong babe, i hope even if things sometime do not go ur way u will stop trying, u will not give up on urself and on ur thoughest days, i hope u will reminding your self of this word "u deserve better, kamu layak dicintai dan dirayakan dalam hal apapun!!. n may allah grant u what ur heart truly desire, may allah make everything u want good for u, so that may accept all ur prayers and wishes babe thank u for accepting me.🥺🥺💗💗
+sometimes, yang bisa diandelin hanya kamu sendiri, tapi jangan pernah kamu ngerasa sendiri, if you need someone to talk im here, and always here, masih punya diri kamu sendiri, kamu punya tuhan, dan aku sayang!!
+semoga hal baik selalu beriringan denganmu, semoga semesta selalu berpihak sama kamu, semoga jalanmu selalu di permudahkan, teruslah tumbuh, teruslah melangkah & berbahagia. aku akan selalu bangga atas setiap proses yang sudah kamu lalui anak hebat anak kuat anak gantengg, selamat berkelana, i will always support u!!.💐💐💗💗
+
+from: ur girlfriend(nama kalian)`;
+
+    function goToPage(pageNum) {
+      const pages = document.querySelectorAll('.page');
+      pages.forEach(p => p.classList.remove('active'));
+      const next = document.getElementById(`page${pageNum}`);
+      next.classList.add('active');
+
+      if (pageNum === 8) {
+        const music = document.getElementById("bg-music");
+        music.muted = false;
+        music.play().catch(e => console.log("Autoplay blocked:", e));
+
+        confetti({ particleCount: 150, spread: 100, origin: { y: 0.6 } });
+        typeText(fullLetter, document.getElementById('letterText'), 25);
+        startFallingSymbols();
+      }
+    }
+
+    function typeText(text, element, speed) {
+      element.innerHTML = '';
+      let i = 0;
+      function type() {
+        if (i < text.length) {
+          element.innerHTML += text.charAt(i);
+          element.scrollTop = element.scrollHeight;
+          i++;
+          setTimeout(type, speed);
+        }
+      }
+      type();
+    }
+
+    function startFallingSymbols() {
+      setInterval(() => {
+        const el = document.createElement('div');
+        el.classList.add('falling');
+        const isBlueHeart = Math.random() < 0.5;
+        el.innerText = isBlueHeart ? '💙' : '💫';
+        el.style.position = 'fixed';
+        el.style.top = '-30px';
+        el.style.left = Math.random() * 100 + 'vw';
+        el.style.fontSize = '24px';
+        el.style.animation = `fall ${3 + Math.random() * 2}s linear forwards`;
+        document.body.appendChild(el);
+        setTimeout(() => el.remove(), 6000);
+      }, 300);
+    }
+
+    const style = document.createElement('style');
+    style.innerHTML = `
+      @keyframes fall {
+        to {
+          transform: translateY(110vh);
+          opacity: 0;
+        }
+      }
+    `;
+    document.head.appendChild(style);
+  </script>
+</body>
+</html>
