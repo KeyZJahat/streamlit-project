@@ -1,0 +1,99 @@
+bg: "#fce4ec",
+        bar: "#f8bbd0",
+        art: "🎁"
+      },
+      {
+        text: "happy 21st birthday, Casey !",
+        button: "next...",
+        bg: "#e0f7fa",
+        bar: "#b2ebf2",
+        art: "🎂"
+      },
+      {
+        text: "huh? what's this ? looks like snoopy has a message !",
+        button: "next...",
+        bg: "#fff9c4",
+        bar: "#fff176",
+        art: "🌻"
+      },
+      {
+        text: "hmm... it seems like you have a gift again",
+        button: "open gift ?",
+        bg: "#f3e5f5",
+        bar: "#e1bee7",
+        art: "📦"
+      },
+      {
+        text: "For the second time, happy 21st birthday, Casey !",
+        button: "next...",
+        bg: "#e8f5e9",
+        bar: "#c8e6c9",
+        art: "🎉"
+      },
+      {
+        text: "So proud to know you and to be your friend. I hope you have a great year ahead, filled with love, laughter, and all the things that make you happy. You deserve it all! Keep shining bright, Casey ♡",
+        button: "Finish ❤️",
+        bg: "#e1f5fe",
+        bar: "#b3e5fc",
+        art: "🐸🐰"
+      }
+    ];
+
+    let currentStep = 0;
+    let typingTimer = null;
+
+    const textElement = document.getElementById('typed-text');
+    const artElement = document.getElementById('art-container');
+    const btnElement = document.getElementById('next-btn');
+    const windowElement = document.getElementById('app-window');
+    const titleBar = document.querySelector('.title-bar');
+
+    // Efek ketik teks (Typewriter Effect)
+    function typeWriter(text, i = 0) {
+      if (i === 0) textElement.innerHTML = "";
+      if (i < text.length) {
+        textElement.innerHTML += text.charAt(i);
+        typingTimer = setTimeout(() => typeWriter(text, i + 1), 50);
+      }
+    }
+
+    // Update Tampilan berdasarkan Step
+    function loadStep(index) {
+      clearTimeout(typingTimer);
+      const data = story[index];
+
+      // Ubah Teks & Tombol
+      typeWriter(data.text);
+      btnElement.innerText = data.button;
+
+      // Ubah Warna Theme Window
+      windowElement.style.backgroundColor = data.bg;
+      titleBar.style.backgroundColor = data.bar;
+
+      // Ubah Gambar/Ikon
+      artElement.innerHTML = data.art;
+    }
+
+    // Event Klik Tombol Next
+    btnElement.addEventListener('click', () => {
+      if (currentStep < story.length - 1) {
+        currentStep++;
+        loadStep(currentStep);
+      } else {
+        alert("Terima kasih sudah membaca! ❤️");
+      }
+    });
+
+    // Event Klik Tombol Back (Panah Kiri)
+    document.getElementById('back-btn').addEventListener('click', () => {
+      if (currentStep > 0) {
+        currentStep--;
+        loadStep(currentStep);
+      }
+    });
+
+    // Jalankan pertama kali
+    loadStep(currentStep);
+  </script>
+</body>
+</html>
